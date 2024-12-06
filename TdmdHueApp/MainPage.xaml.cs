@@ -1,7 +1,6 @@
-﻿using TDMDUAPP.Domain.Services;
-using TDMDUAPP.infrastucture;
+﻿using TdmdHueApp.Domain.Services;
 
-namespace TDMDUAPP
+namespace TdmdHueApp
 {
     public partial class MainPage : ContentPage
     {

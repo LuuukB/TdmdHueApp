@@ -5,9 +5,9 @@ using System.Linq;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
-using TDMDUAPP.Domain.Model;
+using TdmdHueApp.Domain.Model;
 
-namespace TDMDUAPP.infrastucture
+namespace TdmdHueApp.infrastucture
 {
     public class BridgeConnector : IBridgeConnectorHueLights
     {

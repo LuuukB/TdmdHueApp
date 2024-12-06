@@ -4,11 +4,11 @@ using Microsoft.Maui.Controls;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text.Json;
-using TDMDUAPP.Domain.Model;
-using TDMDUAPP.infrastucture;
+using TdmdHueApp.Domain.Model;
+using TdmdHueApp.infrastucture;
 
 
-namespace TDMDUAPP.Domain.Services
+namespace TdmdHueApp.Domain.Services
 {
     public partial class ViewModel : ObservableObject
     {

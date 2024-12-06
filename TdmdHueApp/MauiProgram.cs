@@ -1,5 +1,8 @@
-﻿using AndroidX.Lifecycle;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
+using TdmdHueApp.Domain.Model;
+using TdmdHueApp.Domain.Services;
+using TdmdHueApp.infrastucture;
+using TdmdHueApp;
 
 namespace TdmdHueApp
 {
