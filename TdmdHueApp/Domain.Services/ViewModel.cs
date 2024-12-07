@@ -18,7 +18,6 @@ namespace TdmdHueApp.Domain.Services
         {
             BridgeConnector = bridgeConnectorHueLights;
             lamps = new ObservableCollection<Lamp>();
-            //bridgeConnectorHueLights = new BridgeConnector(preferences);
         }
         [ObservableProperty]
         private Lamp _selectedLamp;
@@ -48,9 +47,12 @@ namespace TdmdHueApp.Domain.Services
         }
         [RelayCommand]
         public async Task GetLights() {
-            var resuld = await BridgeConnector.GetAllLightIDsAsync();
+            var result = await BridgeConnector.GetAllLightIDsAsync();
+            if (result.StartsWith("Fout")) { 
+                return;
+            }
             Debug.WriteLine("in lghts");
-            JsonDocument jsondoc = JsonDocument.Parse(resuld);
+            JsonDocument jsondoc = JsonDocument.Parse(result);
             var root = jsondoc.RootElement;
             Debug.WriteLine("voor array");
             Debug.WriteLine("geparsed");
@@ -69,7 +71,10 @@ namespace TdmdHueApp.Domain.Services
                 var Hue = baseProperty.GetProperty("hue").GetInt32();
                 var lamp = new Lamp(LampId, IsOn, Brightness, Saturation, Hue);
                 Debug.WriteLine("Lampieess");
-                Lamps.Add(lamp);
+                if (!lamps.Contains(lamp))
+                {
+                    Lamps.Add(lamp);
+                }
             }
             
         }
@@ -94,6 +99,10 @@ namespace TdmdHueApp.Domain.Services
         public async Task GetSpecificLightInfo()
         {
             var lightInfo = await BridgeConnector.GetLightInfoSpecificAsync(LampId);
+            if (lightInfo.StartsWith("Fout")) 
+            {
+                return;
+            } 
             InfoLamp = lightInfo ?? "No info available";
         }
 

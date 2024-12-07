@@ -23,5 +23,22 @@ namespace TdmdHueApp.Domain.Model
             Saturation = sat;
             Hue = hue;
         }
+        public override bool Equals(object obj)
+        {
+            if (obj is Lamp otherLamp)
+            {
+                return LampId == otherLamp.LampId &&
+                       IsOn == otherLamp.IsOn &&
+                       Brightness == otherLamp.Brightness &&
+                       Saturation == otherLamp.Saturation &&
+                       Hue == otherLamp.Hue;
+            }
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(LampId, IsOn, Brightness, Saturation, Hue);
+        }
     }
 }
