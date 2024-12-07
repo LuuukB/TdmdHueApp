@@ -48,13 +48,13 @@ namespace TdmdHueApp.Domain.Services
         [RelayCommand]
         public async Task GetLights() {
             var result = await BridgeConnector.GetAllLightIDsAsync();
-            if (result.StartsWith("Fout")) { 
+            if (result.StartsWith("Fout") || result.Contains("error")) { 
                 return;
             }
             Debug.WriteLine("in lghts");
             JsonDocument jsondoc = JsonDocument.Parse(result);
             var root = jsondoc.RootElement;
-            Debug.WriteLine("voor array");
+            Debug.WriteLine("voor array: " + root);
             Debug.WriteLine("geparsed");
 
             foreach (var lampElement in root.EnumerateObject())
