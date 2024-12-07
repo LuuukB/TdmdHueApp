@@ -106,5 +106,39 @@ namespace TdmdHueApp.Domain.Services
             InfoLamp = lightInfo ?? "No info available";
         }
 
+        public static Color GetColorFromHSV(int hue, int saturation, int brightness)
+        {
+            float h = hue / 65535f;
+            float s = saturation / 255f;
+            float v = brightness / 255f;
+
+            float r = v;
+            float g = v;
+            float b = v;
+
+            if (s != 0)
+            {
+                float h2 = h * 6;
+                int i = (int)Math.Floor(h2);
+                float f = h2 - i;
+                float p = v * (1 - s);
+                float q = v * (1 - f * s);
+                float t = v * (1 - (1 - f) * s);
+
+                switch (i)
+                {
+                    case 0: r = v; g = t; b = p; break;
+                    case 1: r = q; g = v; b = p; break;
+                    case 2: r = p; g = v; b = t; break;
+                    case 3: r = p; g = q; b = v; break;
+                    case 4: r = t; g = p; b = v; break;
+                    case 5: r = v; g = p; b = q; break;
+                }
+            }
+
+            return Color.FromRgb(r, g, b);
+        }
+        
+        public Color CircleColor => GetColorFromHSV((int)Hue, (int)Saturation, (int)Brightness);
     }
 }
