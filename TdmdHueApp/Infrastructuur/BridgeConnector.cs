@@ -13,10 +13,12 @@ namespace TdmdHueApp.infrastucture
     {
         private static readonly HttpClient _httpClient = new() { BaseAddress = new Uri("http://localhost/api/") };//als je met emulator wil connencten gebruik deze anders https://192.168.1.179/api
         private IPreferences _preferences;
+        private ExtractUsername _extractUsername;
        
-        public BridgeConnector(IPreferences preferences)
+        public BridgeConnector(IPreferences preferences, ExtractUsername extractUsername)
         {
             _preferences = preferences;
+            _extractUsername = extractUsername;
         }
 
         public async Task SendApiLinkAsync() 
@@ -33,7 +35,7 @@ namespace TdmdHueApp.infrastucture
                     string json = await response.Content.ReadAsStringAsync();
                     Debug.WriteLine(json);
 
-                    ExtractUserName(json);
+                    _extractUsername.setUsername(json);
                 }
                 else
                 {
@@ -56,19 +58,6 @@ namespace TdmdHueApp.infrastucture
 
 
 
-        }
-
-        public void ExtractUserName(string json)
-        {
-            JsonDocument jsonDocument = JsonDocument.Parse(json);
-            var rootArray = jsonDocument.RootElement;
-            var rootObject = rootArray[0];
-            var successElement = rootObject.GetProperty("success");
-            var usernameProperty = successElement.GetProperty("username");
-            var userName = usernameProperty.GetString();
-            //UserName = usernameProperty.GetString();
-            Debug.WriteLine(userName);
-            _preferences.Set("username",userName);
         }
 
 
