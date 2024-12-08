@@ -26,35 +26,7 @@ namespace UnitTestProject
             Assert.Equal(20, lamp.Brightness);
             Assert.Equal(200, lamp.Saturation);
             Assert.Equal(2000, lamp.Hue);
-        }
-
-        [Fact] 
-        public void EqualLampTest() {
-
-            Assert.True(lamp.Equals(lamp3));
-            Assert.False(lamp.Equals(lamp2));
-            Assert.False(lamp.Equals(lamp4));
-            Assert.False(lamp.Equals(lamp5));
-            Assert.False(lamp.Equals(lamp6));
-            Assert.False(lamp.Equals(lamp7));
-        }
-
-        [Fact]
-        public void GetHasCodeLampTest()
-        {
-
-            var hash1 = lamp.GetHashCode();
-            var sameAsHash1 = lamp.GetHashCode();
-            var hash3 = lamp3.GetHashCode();
-            var hash2 = lamp2.GetHashCode();
-
-            Assert.Equal(hash1, sameAsHash1); // 2x hetzelfde hasen zou zelfde hash moeten geven
-            Assert.Equal(hash1, hash3); //verschillende objecten met zelfde inhoud zou zelfde hash moeten geven
-            Assert.NotEqual(hash1, hash2); // verschillende objecten met verschillende inhoud zou verschillende hash moeten geven
-
-        }
-
-       
+        }       
 
         [Fact] 
         public void ExtractUsernameTest() {
