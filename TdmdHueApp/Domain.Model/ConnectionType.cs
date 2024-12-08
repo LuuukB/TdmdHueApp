@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TdmdHueApp.Domain.Services
+namespace TdmdHueApp.Domain.Model
 {
     public enum ConnectionType
     {
