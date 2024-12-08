@@ -12,7 +12,6 @@ namespace TdmdHueApp.Domain.Model
         void SetConnectionType(ConnectionType connection);
 
         Task<string> GetAllLightIDsAsync();
-        Task<string> TurnLightOnOffAsync(string lightID, bool isOn);
 
         Task<string> SetLighColorAsync(string lightId, int hue, int saturation, int brightness, bool isOn);
 
