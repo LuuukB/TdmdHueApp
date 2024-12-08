@@ -18,6 +18,7 @@
             <HorizontalStackLayout Padding="100,0" Spacing="25">
                 <Button x:Name="BTNConToEmulator" Text="Connect to emulator" Command="{Binding SendApiLinkCommand}" HorizontalOptions="Center" IsEnabled="{Binding IsEmulatorButtonEnabled}" />
                 <Button x:Name="BTNConToBridge" Text="Connect to HUE lamp" Command="{Binding SendApiBridgeCommand} " SemanticProperties.Hint="Connect to HUE lamp" HorizontalOptions="Center" IsEnabled="{Binding IsBridgeButtonEnabled}" />
+                <Label x:Name="StatusLabel" Text="{Binding StatusApp}" Style="{StaticResource SubHeadline}" />
             </HorizontalStackLayout>
 
             <Button x:Name="BTNGetLights" Text="Get lights info" Command="{Binding GetLightsCommand}" HorizontalOptions="Fill" />
@@ -53,10 +54,10 @@
                 <Slider Minimum="0" Maximum="255" Value="{Binding SelectedLamp.Saturation}" />
                 <Slider Minimum="0" Maximum="255" Value="{Binding SelectedLamp.Brightness}" />
 
-            
-                <Switch IsToggled="{Binding SelectedLamp.IsOn}" />
 
-         
+                <Switch IsToggled="{Binding SelectedLamp.IsOn, Mode=TwoWay}" />
+
+                
                 <Button Text="Apply Changes" Command="{Binding SetLightColorCommand}" HorizontalOptions="Fill" />
             </StackLayout>
 

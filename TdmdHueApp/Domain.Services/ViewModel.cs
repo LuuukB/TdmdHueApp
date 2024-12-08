@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.Controls;
 using System.Collections.ObjectModel;
+using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Text.Json;
 using TdmdHueApp.Domain.Model;
@@ -23,6 +24,8 @@ namespace TdmdHueApp.Domain.Services
             IsEmulatorButtonEnabled = true;
         }
         [ObservableProperty]
+        private string _statusApp;
+        [ObservableProperty]
         private bool _isEmulatorButtonEnabled;
         [ObservableProperty]
         private bool _isBridgeButtonEnabled;
@@ -39,8 +42,6 @@ namespace TdmdHueApp.Domain.Services
         [ObservableProperty]
         private int _brightness;
         [ObservableProperty]
-        private string _infoLamp;
-        [ObservableProperty]
         public ObservableCollection<Lamp> lamps;
 
         [RelayCommand]
@@ -56,7 +57,18 @@ namespace TdmdHueApp.Domain.Services
             IsEmulatorButtonEnabled = false;
             IsBridgeButtonEnabled = false;
 
-            await BridgeConnector.SendApiLinkAsync();
+            var result = await BridgeConnector.SendApiLinkAsync();
+            if (result.Contains("error"))
+            {
+                StatusApp = "unable to make Connection" + result;
+                IsEmulatorButtonEnabled = true;
+                return;
+            }
+            else 
+            {
+                StatusApp = "Made a connection" + result;
+                return;
+            }
 
         }
         [RelayCommand]
@@ -67,13 +79,27 @@ namespace TdmdHueApp.Domain.Services
             IsEmulatorButtonEnabled = false;
             IsBridgeButtonEnabled = false;
 
-            await BridgeConnector.SendApiLinkAsync();
+            var result = await BridgeConnector.SendApiLinkAsync();
+            if (result.Contains("error"))
+            {
+                StatusApp = "unable to make Connection " + result;
+                IsBridgeButtonEnabled= true;
+                return;
+            }
+            else
+            {
+                StatusApp = "Made a connection" + result;
+                return;
+            }
 
         }
         [RelayCommand]
         public async Task GetLights() {
             var result = await BridgeConnector.GetAllLightIDsAsync();
-            if (result.StartsWith("Fout") || result.Contains("error")) { 
+            if (result.Contains("error")) {
+                StatusApp = "retry Connecting " + result;
+                IsBridgeButtonEnabled = true;
+                IsEmulatorButtonEnabled = true;
                 return;
             }
             Debug.WriteLine("in lghts");
@@ -103,10 +129,7 @@ namespace TdmdHueApp.Domain.Services
             }
             
         }
-        [RelayCommand]
-        public async Task TurnLightOnOffAsync() {
-            await BridgeConnector.TurnLightOnOffAsync(LampId, IsLightOn);
-        }
+
         [RelayCommand]
         public async Task SetLightColor()
         {
@@ -116,19 +139,22 @@ namespace TdmdHueApp.Domain.Services
 
             if (SelectedLamp == null)
                 return;
+            
 
-            await BridgeConnector.SetLighColorAsync(SelectedLamp.LampId.ToString(), SelectedLamp.Hue, SelectedLamp.Saturation, SelectedLamp.Brightness, SelectedLamp.IsOn);
-        }
-
-        [RelayCommand]
-        public async Task GetSpecificLightInfo()
-        {
-            var lightInfo = await BridgeConnector.GetLightInfoSpecificAsync(LampId);
-            if (lightInfo.StartsWith("Fout")) 
+            var result = await BridgeConnector.SetLighColorAsync(SelectedLamp.LampId.ToString(), SelectedLamp.Hue, SelectedLamp.Saturation, SelectedLamp.Brightness, SelectedLamp.IsOn);
+            if (result.Contains("error") && result.Contains("Device is set to off"))
             {
+                StatusApp = "light is turned off";
                 return;
-            } 
-            InfoLamp = lightInfo ?? "No info available";
+            }
+            else if (result.Contains("error")) 
+            {
+                StatusApp = "Retry Connecting " + result;
+                IsBridgeButtonEnabled = true;
+                IsEmulatorButtonEnabled = true;
+                return;
+            }
+
         }
 
     }
