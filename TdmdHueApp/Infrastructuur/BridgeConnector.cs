@@ -67,17 +67,17 @@ namespace TdmdHueApp.infrastucture
             catch (HttpRequestException httpEx)
             {
                 Debug.WriteLine(httpEx.Message);
-                return "error";
+                return " error";
             }
             catch (TimeoutException timeoutEx)
             {
                 Debug.WriteLine($"Time-out fout: {timeoutEx.Message}");
-                return "error";
+                return " error";
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                return "error";
+                return " error";
             }
 
         }
@@ -97,11 +97,11 @@ namespace TdmdHueApp.infrastucture
             catch (HttpRequestException httpEx)
             {
                 Debug.WriteLine(httpEx.Message);
-                return "error Fout : NetwerkFout";
+                return " error Fout : NetwerkFout";
             }
             catch (Exception ex)
             {
-                return "error Fout : Onverwachte fout bij ophalen van licht-ID's";
+                return " error Fout : Onverwachte fout bij ophalen van licht-ID's";
             }
 
         }
@@ -130,39 +130,13 @@ namespace TdmdHueApp.infrastucture
             catch (HttpRequestException httpEx)
             {
                 Debug.WriteLine($"Netwerkfout bij het instellen van kleur voor licht {lightId}: {httpEx.Message}");
-                return "error";
+                return " error";
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"Er is een onverwachte fout opgetreden bij het instellen van kleur voor licht {lightId}: {ex.Message}");
-                return "error";
+                return " error";
             }
         }
-        public async Task<string> TurnLightOnOffAsync(string lightID, bool isOn)
-        {
-            try
-            {
-                var response = await _httpClient.PutAsJsonAsync(
-                    $"{_preferences.Get("username", string.Empty)}/lights/{lightID}/state",
-                    new { on = isOn }
-                    );
-                response.EnsureSuccessStatusCode();
-                string json = await response.Content.ReadAsStringAsync();
-                Debug.WriteLine(json);
-                return json;
-            }
-            catch (HttpRequestException httpEx)
-            {
-                Debug.WriteLine($"Netwerkfout bij het inschakelen/uitschakelen van licht {lightID}: {httpEx.Message}");
-                return "error";
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Er is een onverwachte fout opgetreden bij het On/Off zetten van licht {lightID}: {ex.Message}");
-                return "error";
-            }
-
-        }
-
     }
 }

@@ -33,7 +33,6 @@
                                 <Label Text="{Binding Hue,StringFormat='Hue: {0}'}" FontSize="Small" />
                                 <Label Text="{Binding Saturation, StringFormat='Saturation: {0}'}" FontSize="Small" />
                                 <Label Text="{Binding Brightness, StringFormat='Brightness: {0}'}" FontSize="Small" />
-                                <Label Text="{Binding IsLightOn,StringFormat='Brightness: {0}'}" FontSize="Small" />
 
                                 <Button Text="Select Lamp"
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ViewModel}}, Path=SetSelectedLampCommand}"
@@ -49,10 +48,15 @@
                 <Label Text="Selected Lamp:" FontSize="Medium" />
                 <Label Text="{Binding SelectedLamp.LampId}" FontSize="Small" />
 
-                
+                <Label Text="Hue"/>
                 <Slider Minimum="0" Maximum="65535" Value="{Binding SelectedLamp.Hue}" />
+                <Label Text="{Binding SelectedLamp.Hue}" FontSize="Small"/>
+                <Label Text="Saturaion"/>
                 <Slider Minimum="0" Maximum="255" Value="{Binding SelectedLamp.Saturation}" />
+                <Label Text="{Binding SelectedLamp.Saturation}" FontSize="Small"/>
+                <Label Text ="Brightness"/>
                 <Slider Minimum="0" Maximum="255" Value="{Binding SelectedLamp.Brightness}" />
+                <Label Text="{Binding SelectedLamp.Brightness}" FontSize="Small"/>
 
 
                 <Switch IsToggled="{Binding SelectedLamp.IsOn, Mode=TwoWay}" />
