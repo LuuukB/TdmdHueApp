@@ -26,6 +26,7 @@ namespace TdmdHueApp
             builder.Services.AddSingleton<ViewModel>();
             builder.Services.AddSingleton<MainPage>();
             builder.Services.AddTransient<ExtractUsername>();
+            builder.Services.AddSingleton<HttpClient>();
 
             builder.Services.AddSingleton<IPreferences>(p => Preferences.Default);
             builder.Services.AddSingleton<IBridgeConnectorHueLights, BridgeConnector>();

@@ -11,14 +11,15 @@ namespace TdmdHueApp.infrastucture
 {
     public class BridgeConnector : IBridgeConnectorHueLights
     {
-        private static readonly HttpClient _httpClient = new HttpClient();
+        private static HttpClient _httpClient;
         private IPreferences _preferences;
         private ExtractUsername _extractUsername;
        
-        public BridgeConnector(IPreferences preferences, ExtractUsername extractUsername)
+        public BridgeConnector(IPreferences preferences, ExtractUsername extractUsername, HttpClient httpClient)
         {
             _preferences = preferences;
             _extractUsername = extractUsername;
+            _httpClient = httpClient;
         }
         public void SetConnectionType(ConnectionType connectionType)
         {

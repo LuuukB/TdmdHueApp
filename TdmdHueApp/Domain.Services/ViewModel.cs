@@ -60,13 +60,13 @@ namespace TdmdHueApp.Domain.Services
             var result = await BridgeConnector.SendApiLinkAsync();
             if (result.Contains("error"))
             {
-                StatusApp = "unable to make Connection" + result;
+                StatusApp = "unable to make Connection " + result;
                 IsEmulatorButtonEnabled = true;
                 return;
             }
             else 
             {
-                StatusApp = "Made a connection" + result;
+                StatusApp = "Made a connection " + result;
                 return;
             }
 
@@ -88,7 +88,7 @@ namespace TdmdHueApp.Domain.Services
             }
             else
             {
-                StatusApp = "Made a connection" + result;
+                StatusApp = "Made a connection " + result;
                 return;
             }
 
@@ -156,6 +156,8 @@ namespace TdmdHueApp.Domain.Services
             }
 
         }
+
+        
 
     }
 }
