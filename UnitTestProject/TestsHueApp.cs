@@ -5,7 +5,7 @@ using TdmdHueApp.Domain.Model;
 
 namespace UnitTestProject
 {
-    public class UnitTest1
+    public class TestsHueApp
     {
         
         [Fact]
@@ -39,7 +39,7 @@ namespace UnitTestProject
         }
 
         [Fact]
-        public void GetHasCodeTest()
+        public void GetHasCodeLampTest()
         {
 
             var lamp = new Lamp (1, true, 100, 50, 200 );
