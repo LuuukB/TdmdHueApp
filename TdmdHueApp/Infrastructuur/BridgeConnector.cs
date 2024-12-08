@@ -6,19 +6,30 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using TdmdHueApp.Domain.Model;
+using TdmdHueApp.Domain.Services;
 
 namespace TdmdHueApp.infrastucture
 {
     public class BridgeConnector : IBridgeConnectorHueLights
     {
-        private static readonly HttpClient _httpClient = new() { BaseAddress = new Uri("http://localhost/api/") };//als je met emulator wil connencten gebruik deze anders https://192.168.1.179/api
+        private static readonly HttpClient _httpClient = new HttpClient();
         private IPreferences _preferences;
        
         public BridgeConnector(IPreferences preferences)
         {
             _preferences = preferences;
         }
-
+        public void SetConnectionType(ConnectionType connectionType)
+        {
+            if (connectionType == ConnectionType.Emulator)
+            {
+                _httpClient.BaseAddress = new Uri("http://localhost/api/");
+            }
+            else if (connectionType == ConnectionType.HueLamp)
+            {
+                _httpClient.BaseAddress = new Uri("https://192.168.1.179/api/"); 
+            }
+        }
         public async Task SendApiLinkAsync() 
         {
             Debug.WriteLine("Send LINK");
@@ -169,5 +180,7 @@ namespace TdmdHueApp.infrastucture
             }
 
         }
+
+      
     }
 }

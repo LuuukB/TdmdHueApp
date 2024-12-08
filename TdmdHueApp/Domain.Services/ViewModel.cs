@@ -13,12 +13,19 @@ namespace TdmdHueApp.Domain.Services
     public partial class ViewModel : ObservableObject
     {
         private IBridgeConnectorHueLights BridgeConnector;
+        private ConnectionType _currentConnectionType = ConnectionType.None;
        
         public ViewModel(IPreferences preferences, IBridgeConnectorHueLights bridgeConnectorHueLights) 
         {
             BridgeConnector = bridgeConnectorHueLights;
             lamps = new ObservableCollection<Lamp>();
+            IsBridgeButtonEnabled = true;
+            IsEmulatorButtonEnabled = true;
         }
+        [ObservableProperty]
+        private bool _isEmulatorButtonEnabled;
+        [ObservableProperty]
+        private bool _isBridgeButtonEnabled;
         [ObservableProperty]
         private Lamp _selectedLamp;
         [ObservableProperty]
@@ -43,7 +50,25 @@ namespace TdmdHueApp.Domain.Services
 
         [RelayCommand]
         public async Task SendApiLink() {
+            _currentConnectionType = ConnectionType.Emulator;
+            BridgeConnector.SetConnectionType(_currentConnectionType);
+
+            IsEmulatorButtonEnabled = false;
+            IsBridgeButtonEnabled = false;
+
             await BridgeConnector.SendApiLinkAsync();
+
+        }
+        [RelayCommand]
+        public async Task SendApiBridge() {
+            _currentConnectionType = ConnectionType.HueLamp;
+            BridgeConnector.SetConnectionType(_currentConnectionType);
+
+            IsEmulatorButtonEnabled = false;
+            IsBridgeButtonEnabled = false;
+
+            await BridgeConnector.SendApiLinkAsync();
+
         }
         [RelayCommand]
         public async Task GetLights() {

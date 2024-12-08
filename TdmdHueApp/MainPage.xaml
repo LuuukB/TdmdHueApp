@@ -10,6 +10,18 @@
             Padding="30,0"
             Spacing="25">
 
+            <Label Text="First off, choose if you wish to connect to an emulator or to a physical lamp"
+                   Style="{StaticResource SubHeadline}" 
+                   SemanticProperties.HeadingLevel="Level2" 
+                   SemanticProperties.Description="Start with choosing what you want to connect to" />
+
+            <HorizontalStackLayout Padding="100,0" Spacing="25">
+                <Button x:Name="BTNConToEmulator" Text="Connect to emulator" Command="{Binding SendApiLinkCommand}" HorizontalOptions="Center" IsEnabled="{Binding IsEmulatorButtonEnabled}" />
+                <Button x:Name="BTNConToBridge" Text="Connect to HUE lamp" Command="{Binding SendApiBridgeCommand} " SemanticProperties.Hint="Connect to HUE lamp" HorizontalOptions="Center" IsEnabled="{Binding IsBridgeButtonEnabled}" />
+            </HorizontalStackLayout>
+
+            <Button x:Name="BTNGetLights" Text="Get lights info" Command="{Binding GetLightsCommand}" HorizontalOptions="Fill" />
+
             <CollectionView ItemsSource="{Binding Lamps}" SelectedItem="{Binding SelectedLamp}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
@@ -48,18 +60,6 @@
                 <Button Text="Apply Changes" Command="{Binding SetLightColorCommand}" HorizontalOptions="Fill" />
             </StackLayout>
 
-
-            <Label Text="First off, choose if you wish to connect to an emulator or to a physical lamp"
-                   Style="{StaticResource SubHeadline}" 
-                   SemanticProperties.HeadingLevel="Level2" 
-                   SemanticProperties.Description="Start with choosing what you want to connect to" />
-
-            <HorizontalStackLayout Padding="100,0" Spacing="25">
-                <Button x:Name="BTNConToEmulator" Text="Connect to emulator" Command="{Binding SendApiLinkCommand}" HorizontalOptions="Center" />
-                <Button x:Name="BTNConToBridge" Text="Connect to HUE lamp" SemanticProperties.Hint="Connect to HUE lamp" HorizontalOptions="Center" />
-            </HorizontalStackLayout>
-
-            <Button x:Name="BTNGetLights" Text="Get lights info" Command="{Binding GetLightsCommand}" HorizontalOptions="Fill" />
         </VerticalStackLayout>
     </ScrollView>
 
