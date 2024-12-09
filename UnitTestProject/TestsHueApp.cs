@@ -254,8 +254,9 @@ namespace UnitTestProject
         {
             var mockBridgeConnector = new Mock<IBridgeConnectorHueLights>();
             mockBridgeConnector
-                .Setup(b => b.SetLighColorAsync("1", 10, 100, 1000, false))
+                .Setup(b => b.SetLighColorAsync(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<bool>()))
                 .ReturnsAsync("success");
+
 
             ViewModel viewModel = new(new Mock<IPreferences>().Object, mockBridgeConnector.Object)
             {
@@ -264,14 +265,8 @@ namespace UnitTestProject
 
             await viewModel.SetLightColor();
 
-            Assert.Equal(1, viewModel.SelectedLamp.LampId);
-            Assert.Equal(10, viewModel.SelectedLamp.Hue);
-            Assert.Equal(100, viewModel.SelectedLamp.Saturation);
-            Assert.Equal(1000, viewModel.SelectedLamp.Brightness);
-            Assert.False(viewModel.SelectedLamp.IsOn);
+            mockBridgeConnector.Verify(b => b.SetLighColorAsync("1", 2000, 200, 20, true), Times.Once);
         }
-
-
 
     }
 }
